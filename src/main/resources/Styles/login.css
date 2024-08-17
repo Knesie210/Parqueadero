@@ -1,0 +1,38 @@
+#main_panel{
+    -fx-maxHeight: 1200;
+    -fx-maxWidth: 1050;
+    -fx-minHeight: 400;
+    -fx-minWidth: 350;
+    -fx-background-color: #005f6b;
+}
+#Login_titulo{
+    -fx-font-family:Roboto;
+    -fx-font-size: 3em;
+    -fx-text-fill: white;
+}
+#Grind{
+    -fx-hgap:10;
+    -fx-vgap:10;
+}
+.boton{
+    -fx-background-color: #009688;
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+
+    -fx-pref-width: 175px;
+    -fx-pref-height: 60px;
+    -fx-background-radius: 10;
+    -fx-hgap: 2px;
+    -fx-Vgap: 2px;
+    -fx-font-family: Roboto;
+}
+
+/* Cambiar el color del botón al pasar el mouse */
+.button:hover {
+    -fx-background-color: #00796b;
+}
+
+/* Cambiar el color del botón al presionarlo */
+.button:pressed {
+    -fx-background-color: #004d40;
+}
