@@ -5,7 +5,13 @@ import java.time.format.DateTimeFormatter;
 
 public class Vehiculo {
     private String propietario, placa, tipoVehiculo;
-    private String hora=obtenerHoraActual();
+    private String horaEntrada;
+    private String horaSalida;
+
+    public Vehiculo() {
+        this.horaEntrada = obtenerHoraActual();
+        this.horaSalida = obtenerHoraActual();
+    }
 
     public String getPropietario() {
         return propietario;
@@ -31,15 +37,22 @@ public class Vehiculo {
         this.tipoVehiculo = tipoVehiculo;
     }
 
-    public String getHora() {
-        return hora;
+    public String getHoraEntrada() {
+        return horaEntrada;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setHoraEntrada(String horaEntrada) {
+        this.horaEntrada = horaEntrada;
     }
 
-    // Método para obtener la hora y fecha actual
+    public String getHoraSalida() {
+        return horaSalida;
+    }
+
+    public void setHoraSalida(String horaSalida) {
+        this.horaSalida = horaSalida;
+    }
+
     private String obtenerHoraActual() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.now().format(formatter);

@@ -4,7 +4,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import org.bson.Document;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,45 +15,29 @@ public class VehiculoCRUD {
     }
 
     public void ingresarVehiculo(Vehiculo vehiculo) {
-        Document doc = new Document("placa", vehiculo.getPlaca())
-                .append("propietario", vehiculo.getPropietario())
-                .append("horaEntrada", vehiculo.getHora())
-                .append("tipoVehiculo", vehiculo.getTipoVehiculo())
-                .append("horaSalida", null);
+        Document doc = crearDocumentoVehiculo(vehiculo);
         collection.insertOne(doc);
     }
 
-    public List<Vehiculo> listarVehiculos(){
+    public List<Vehiculo> listarVehiculos() {
         List<Vehiculo> vehiculos = new ArrayList<>();
-        MongoCursor<Document> cursor = collection.find().iterator();
-        try {
+        try (MongoCursor<Document> cursor = collection.find().iterator()) {
             while (cursor.hasNext()) {
-                Document doc = cursor.next();
-                Vehiculo vehiculo = new Vehiculo();
-                vehiculo.setPlaca(doc.getString("placa"));
-                vehiculo.setPropietario(doc.getString("propietario"));
-                vehiculo.setTipoVehiculo(doc.getString("tipoVehiculo"));
-                vehiculo.setHora(doc.getString("horaEntrada"));
-
-                vehiculos.add(vehiculo);
+                vehiculos.add(convertirDocumentoAVehiculo(cursor.next()));
             }
-        } finally {
-            cursor.close();
         }
         return vehiculos;
     }
 
     public void actualizarHoraSalida(String placa) {
         Document filtro = new Document("placa", placa);
-        Document actualizacion = new Document("$set", new Document("horaSalida", LocalDateTime.now().toString()));
+        Document actualizacion = new Document("$set", new Document("horaSalida", new Vehiculo().getHoraSalida()));
         collection.updateOne(filtro, actualizacion);
     }
 
     public void actualizarDatosVehiculo(String placa, Vehiculo vehiculoActualizado) {
         Document query = new Document("placa", placa);
-        Document update = new Document("$set", new Document("propietario", vehiculoActualizado.getPropietario())
-                .append("tipoVehiculo", vehiculoActualizado.getTipoVehiculo())
-                .append("placa", vehiculoActualizado.getPlaca()));
+        Document update = new Document("$set", crearDocumentoVehiculo(vehiculoActualizado));
         collection.updateOne(query, update);
     }
 
@@ -66,22 +49,29 @@ public class VehiculoCRUD {
     public List<Vehiculo> buscarVehiculos(String placa) {
         List<Vehiculo> vehiculos = new ArrayList<>();
         Document filtro = new Document("placa", placa);
-        MongoCursor<Document> cursor = collection.find(filtro).iterator();
-        try {
+        try (MongoCursor<Document> cursor = collection.find(filtro).iterator()) {
             while (cursor.hasNext()) {
-                Document doc = cursor.next();
-                Vehiculo vehiculo = new Vehiculo();
-                vehiculo.setTipoVehiculo(doc.getString("tipoVehiculo"));
-                vehiculo.setPlaca(doc.getString("placa"));
-                vehiculo.setPropietario(doc.getString("propietario"));
-                vehiculo.setHora(doc.getString("horaEntrada"));
-                vehiculo.setHora(doc.getString("horaSalida"));
-                vehiculos.add(vehiculo);
+                vehiculos.add(convertirDocumentoAVehiculo(cursor.next()));
             }
-        } finally {
-            cursor.close();
         }
-
         return vehiculos;
+    }
+
+    private Document crearDocumentoVehiculo(Vehiculo vehiculo) {
+        return new Document("placa", vehiculo.getPlaca())
+                .append("propietario", vehiculo.getPropietario())
+                .append("horaEntrada", vehiculo.getHoraEntrada())
+                .append("tipoVehiculo", vehiculo.getTipoVehiculo())
+                .append("horaSalida", vehiculo.getHoraSalida());
+    }
+
+    private Vehiculo convertirDocumentoAVehiculo(Document doc) {
+        Vehiculo vehiculo = new Vehiculo();
+        vehiculo.setPlaca(doc.getString("placa"));
+        vehiculo.setPropietario(doc.getString("propietario"));
+        vehiculo.setTipoVehiculo(doc.getString("tipoVehiculo"));
+        vehiculo.setHoraEntrada(doc.getString("horaEntrada"));
+        vehiculo.setHoraSalida(doc.getString("horaSalida"));
+        return vehiculo;
     }
 }
