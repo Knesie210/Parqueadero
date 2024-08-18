@@ -7,6 +7,7 @@ import com.espe.parqueadero.View.View;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -15,6 +16,8 @@ import java.util.List;
 import static com.espe.parqueadero.Controllers.Vehicule.IngresarController.showAlert;
 
 public class ListadoController {
+    @FXML
+    public Button btnEditar;
     @FXML
     private TableView<Vehiculo> tableVehicule;
     @FXML
@@ -37,6 +40,7 @@ public class ListadoController {
     private View viewApp = new View();
     private VehiculoCRUD vehiculoCRUD;
     private MongoDB mongoDB;
+
     @FXML
     private void initialize() {
         mongoDB = new MongoDB();
@@ -50,26 +54,51 @@ public class ListadoController {
             }
         });
         btnEliminar.setOnAction(this::handleBtnEliminar);
+        btnEditar.setOnAction(this::handleBtnEditar);
+
+        placa.setCellValueFactory(new PropertyValueFactory<>("placa"));
+        propietario.setCellValueFactory(new PropertyValueFactory<>("propietario"));
+        tipoVehiculo.setCellValueFactory(new PropertyValueFactory<>("tipoVehiculo"));
+        horaEntrada.setCellValueFactory(new PropertyValueFactory<>("horaEntrada"));
+        horaSalida.setCellValueFactory(new PropertyValueFactory<>("horaSalida"));
+
+
+        placa.setCellFactory(TextFieldTableCell.forTableColumn());
+        propietario.setCellFactory(TextFieldTableCell.forTableColumn());
+        placa.setEditable(true);
+        propietario.setEditable(true);
+
+        placa.setOnEditCommit(this::handleEdit);
+        propietario.setOnEditCommit(this::handleEdit);
+
+
     }
+
     @FXML
     private void handleButtonClick(ActionEvent event) {
         viewApp.navigateToPage("/Fxml/login.fxml", event);
     }
+
     @FXML
     private void handleBtnIngresar(ActionEvent event) {
         viewApp.navigateToPage("/Fxml/ingresar.fxml", event);
     }
+
     @FXML
     private void handleBtnBuscar(ActionEvent event) {
         listarVehiculosFiltrados(tFieldBuscar.getText());
     }
+
     @FXML
-    public void handleBtnEliminar(ActionEvent event) {
+    private void handleBtnEliminar(ActionEvent event) {
         eliminarVehiculoSeleccionado();
     }
+
     @FXML
-    public void handleBtnEditar(ActionEvent event) {
+    private void handleBtnEditar(ActionEvent event) {
+        tableVehicule.setEditable(true);
     }
+
     private void buscarVehiculo() {
         String criterioBusqueda = tFieldBuscar.getText().trim();
 
@@ -84,9 +113,11 @@ public class ListadoController {
     private void listarVehiculos() {
         tableVehicule.getItems().setAll(vehiculoCRUD.listarVehiculos());
     }
+
     private void listarVehiculosFiltrados(String placa) {
         tableVehicule.getItems().setAll(vehiculoCRUD.buscarVehiculos(placa));
     }
+
     private void configurarTabla() {
         placa.setCellValueFactory(new PropertyValueFactory<>("placa"));
         propietario.setCellValueFactory(new PropertyValueFactory<>("propietario"));
@@ -94,6 +125,7 @@ public class ListadoController {
         horaEntrada.setCellValueFactory(new PropertyValueFactory<>("horaEntrada"));
         horaSalida.setCellValueFactory(new PropertyValueFactory<>("horaSalida"));
     }
+
     private void eliminarVehiculoSeleccionado() {
         Vehiculo vehiculoSeleccionado = tableVehicule.getSelectionModel().getSelectedItem();
         if (vehiculoSeleccionado != null) {
@@ -104,4 +136,22 @@ public class ListadoController {
             showAlert(Alert.AlertType.WARNING, "Ninguna Selección", "Por favor, selecciona un vehículo para eliminar.");
         }
     }
+
+    @FXML
+    private void handleEdit(TableColumn.CellEditEvent<Vehiculo, String> event) {
+        Vehiculo vehiculo = event.getRowValue();
+        String nuevoValor = event.getNewValue();
+        String columnaEditada = event.getTableColumn().getId();
+
+        if (columnaEditada.equals("placa")) {
+            vehiculo.setPlaca(nuevoValor);
+        } else if (columnaEditada.equals("propietario")) {
+            vehiculo.setPropietario(nuevoValor);
+        }
+
+        vehiculoCRUD.actualizarDatosVehiculo(vehiculo.getPlaca(), vehiculo);
+
+        listarVehiculos(); // Actualiza la tabla para reflejar los cambios
+    }
+
 }
