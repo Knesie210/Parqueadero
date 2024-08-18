@@ -28,6 +28,7 @@ public class ListadoController {
     @FXML
     private Button btnBuscar;
 
+    private View viewApp = new View();
     private VehiculoCRUD vehiculoCRUD;
     private MongoDB mongoDB;
     @FXML
@@ -36,8 +37,6 @@ public class ListadoController {
         vehiculoCRUD = new VehiculoCRUD(MongoDB.getVehiculoCollection());
         listarVehiculos();
         configurarTabla();
-        vehiculoCRUD = new VehiculoCRUD(MongoDB.getVehiculoCollection());
-        listarVehiculos();
 
         tFieldBuscar.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -45,14 +44,31 @@ public class ListadoController {
             }
         });
     }
-
     @FXML
-    private void onClose() {
-        mongoDB.close(); // Cierra la conexión cuando ya no la necesites
+    private void handleButtonClick(ActionEvent event) {
+        viewApp.navigateToPage("/Fxml/login.fxml", event);
+    }
+    @FXML
+    private void handleBtnIngresar(ActionEvent event) {
+        viewApp.navigateToPage("/Fxml/ingresar.fxml", event);
+    }
+    @FXML
+    private void handleBtnBuscar(ActionEvent event) {
+        listarVehiculosFiltrados(tFieldBuscar.getText());
+    }
+    @FXML
+    public void handleBtnEliminar(ActionEvent event) {
+    }
+    @FXML
+    public void handleBtnEditar(ActionEvent event) {
+    }
+    private void listarVehiculos() {
+        tableVehicule.getItems().setAll(vehiculoCRUD.listarVehiculos());
     }
 
-    private View viewApp = new View();
-
+    private void listarVehiculosFiltrados(String placa) {
+        tableVehicule.getItems().setAll(vehiculoCRUD.buscarVehiculos(placa));
+    }
     private void configurarTabla() {
         placa.setCellValueFactory(new PropertyValueFactory<>("placa"));
         propietario.setCellValueFactory(new PropertyValueFactory<>("propietario"));
@@ -61,26 +77,4 @@ public class ListadoController {
         horaSalida.setCellValueFactory(new PropertyValueFactory<>("horaSalida"));
     }
 
-    @FXML
-    private void handleButtonClick(ActionEvent event) {
-        viewApp.navigateToPage("/Fxml/login.fxml", event);
-    }
-
-    @FXML
-    private void handleBtnIngresar(ActionEvent event) {
-        viewApp.navigateToPage("/Fxml/ingresar.fxml", event);
-    }
-
-    @FXML
-    private void handleBtnBuscar(ActionEvent event) {
-        listarVehiculosFiltrados(tFieldBuscar.getText());
-    }
-
-    private void listarVehiculos() {
-        tableVehicule.getItems().setAll(vehiculoCRUD.listarVehiculos());
-    }
-
-    private void listarVehiculosFiltrados(String placa) {
-        tableVehicule.getItems().setAll(vehiculoCRUD.buscarVehiculos(placa));
-    }
 }

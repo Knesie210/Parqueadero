@@ -76,10 +76,6 @@ public class IngresarController {
 //        Stage stage = (Stage) btnIngresar.getScene().getWindow();
 //        stage.close();
     }
-    @FXML
-    private void handleBtnBuscar(ActionEvent event) {
-        // Implementa tu lógica aquí
-    }
 
     public void handleEnter(KeyEvent event, TextField nextTextField) {
         if (Objects.requireNonNull(event.getCode()) == KeyCode.ENTER) {

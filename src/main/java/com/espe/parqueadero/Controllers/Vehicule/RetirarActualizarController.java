@@ -27,6 +27,7 @@ public class RetirarActualizarController {
     private void initialize() {
         MongoDB mongoDB = new MongoDB();
         vehiculoCRUD = new VehiculoCRUD(MongoDB.getVehiculoCollection());
+        btnRetirar.setOnAction(this::handleBtnRetirar);
     }
     @FXML
     private void handleBtnRetirar(ActionEvent event) {
@@ -35,10 +36,10 @@ public class RetirarActualizarController {
             showAlert(Alert.AlertType.WARNING, "Campos Incompletos", "Por favor, ingresa la placa.");
             return;
         }
-        vehiculoCRUD.actualizarHoraSalida(placasText);
+
+        actualizarHoraSalida(placasText);
 
         showAlert(Alert.AlertType.INFORMATION, "Salida", "Gracias por su visita. Vuelva pronto.");
-
         Stage stage = (Stage) btnRetirar.getScene().getWindow();
         stage.close();
     }
@@ -49,5 +50,8 @@ public class RetirarActualizarController {
     public RetirarActualizarController() {
         MongoDB mongoDB = new MongoDB();
         this.vehiculoCRUD = new VehiculoCRUD(mongoDB.getVehiculoCollection());
+    }
+    private void actualizarHoraSalida(String placas) {
+        vehiculoCRUD.actualizarHoraSalida(placas);
     }
 }
