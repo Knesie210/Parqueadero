@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.text.Font?>
 <AnchorPane id="main_panel" stylesheets="@../Styles/ingresar.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.espe.parqueadero.Controllers.Vehicule.IngresarController">
     <Pane id="main_panel" prefHeight="600.0" prefWidth="450.0" stylesheets="@../Styles/ingresar.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
         <Label id="_titulo" layoutX="130.0" layoutY="14.0" stylesheets="@../Styles/ingresar.css" text="Bienvenido">
@@ -21,7 +23,10 @@
             <ToggleGroup fx:id="tgTransport" />
          </toggleGroup></RadioButton>
         <RadioButton id="_labels" fx:id="btnRdMotocicleta" layoutX="237.0" layoutY="383.0" mnemonicParsing="false" stylesheets="@../Styles/ingresar.css" text="MOTOCICLETA" toggleGroup="$tgTransport" />
-        <Button fx:id="btnIngresar" layoutX="138.0" layoutY="466.0" mnemonicParsing="false" onAction="#handleBtnIngresar" styleClass="boton" stylesheets="@../Styles/ingresar.css" text="INGRESAR" />
+        <Button fx:id="btnIngresar" layoutX="138.0" layoutY="466.0" mnemonicParsing="false" onAction="#handleBtnIngresar" styleClass="boton" stylesheets="@../Styles/ingresar.css" text="INGRESAR">
+        <tooltip>
+            <Tooltip fx:id="tipRegresar" text="Carrito para Volver" />
+        </tooltip></Button>
         <Label id="_labels" layoutX="94.0" layoutY="173.0" stylesheets="@../Styles/ingresar.css" text="PROPIETARIO:" />
         <Label id="_labels" layoutX="95.0" layoutY="273.0" stylesheets="@../Styles/ingresar.css" text="PLACAS:" />
         <Label id="_titulo_referencia" layoutX="90.0" layoutY="73.0" text="Registro de Vehiculo" />
@@ -30,7 +35,11 @@
               <ImageView fitHeight="80.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" styleClass="boton">
                   <Image url="@../Styles/car-icon-blue.png" />
               </ImageView>
-         </graphic></Button>
+         </graphic>
+            <tooltip>
+                <Tooltip fx:id="tipRegresar" text="Regresar">
+                </Tooltip>
+            </tooltip></Button>
     </Pane>
 
 </AnchorPane>

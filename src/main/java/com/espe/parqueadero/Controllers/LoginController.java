@@ -14,19 +14,16 @@ public class LoginController {
 
         viewApp.navigateToPage("/Fxml/ingresar.fxml", event);
     }
-
     @FXML
     private void handleBtnListado(ActionEvent event) {
 
         viewApp.navigateToPage("/Fxml/listado.fxml", event);
     }
-
     @FXML
     private void handleBtnRetiro(ActionEvent event) {
         // Cargar la nueva página (FXML) para la recuperación de contraseña
         viewApp.navigateToPage("/Fxml/retirarActualizar.fxml", event);
     }
-
     @FXML
     private void handleBtnSalir(ActionEvent event) {
         // Cerrar la aplicación

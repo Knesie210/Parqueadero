@@ -75,6 +75,12 @@ public class IngresarController {
         tgTransport.selectToggle(null);
 //        Stage stage = (Stage) btnIngresar.getScene().getWindow();
 //        stage.close();
+
+        Tooltip tooltip = btnIngresar.getTooltip();
+        if (tooltip != null) {
+            tooltip.setShowDelay(javafx.util.Duration.millis(100));
+            tooltip.setHideDelay(javafx.util.Duration.millis(300));
+        }
     }
 
     public void handleEnter(KeyEvent event, TextField nextTextField) {

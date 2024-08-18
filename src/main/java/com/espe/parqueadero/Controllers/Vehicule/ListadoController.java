@@ -17,7 +17,7 @@ import static com.espe.parqueadero.Controllers.Vehicule.IngresarController.showA
 
 public class ListadoController {
     @FXML
-    public Button btnEditar;
+    private Button btnEditar;
     @FXML
     private TableView<Vehiculo> tableVehicule;
     @FXML
@@ -70,6 +70,13 @@ public class ListadoController {
 
         placa.setOnEditCommit(this::handleEdit);
         propietario.setOnEditCommit(this::handleEdit);
+
+
+        Tooltip tooltip = btnBuscar.getTooltip();
+        if (tooltip != null) {
+            tooltip.setShowDelay(javafx.util.Duration.millis(100));
+            tooltip.setHideDelay(javafx.util.Duration.millis(300));
+        }
 
 
     }

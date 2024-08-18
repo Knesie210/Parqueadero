@@ -8,11 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 import static com.espe.parqueadero.Controllers.Vehicule.IngresarController.showAlert;
 
@@ -30,6 +30,12 @@ public class RetirarActualizarController {
         MongoDB mongoDB = new MongoDB();
         vehiculoCRUD = new VehiculoCRUD(MongoDB.getVehiculoCollection());
         btnRetirar.setOnAction(this::handleBtnRetirar);
+
+        Tooltip tooltip = btnRetirar.getTooltip();
+        if (tooltip != null) {
+            tooltip.setShowDelay(javafx.util.Duration.millis(100));
+            tooltip.setHideDelay(javafx.util.Duration.millis(300));
+        }
     }
     @FXML
     private void handleBtnRetirar(ActionEvent event) {
@@ -43,8 +49,8 @@ public class RetirarActualizarController {
         actualizarHoraSalida(placasText, horaSalida);
 
         showAlert(Alert.AlertType.INFORMATION, "Salida", "Gracias por su visita. Vuelva pronto.");
-//        Stage stage = (Stage) btnRetirar.getScene().getWindow();
-//        stage.close();
+        Stage stage = (Stage) btnRetirar.getScene().getWindow();
+        stage.close();
     }
 
     private  View viewApp = new View();

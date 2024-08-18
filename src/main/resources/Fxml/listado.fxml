@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +18,11 @@
                 <ImageView fitHeight="80.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" styleClass="boton">
                     <Image url="@../Styles/car-icon-blue.png" />
                 </ImageView>
-            </graphic></Button>
+            </graphic>
+         <tooltip>
+            <Tooltip fx:id="tipRegresar" text="Regresar">
+            </Tooltip>
+         </tooltip></Button>
         <Label id="Login_titulo" layoutX="94.0" layoutY="22.0" stylesheets="@../Styles/login.css" text="ParkingSoft" />
         <TableView fx:id="tableVehicule" layoutX="26.0" layoutY="137.0" prefHeight="351.0" prefWidth="683.0" stylesheets="@../Styles/listado.css">
             <columns>
@@ -29,7 +34,10 @@
             </columns>
         </TableView>
         <TextField id="_Tfields" fx:id="tFieldBuscar" layoutX="356.0" layoutY="21.0" prefHeight="33.0" prefWidth="259.0" promptText="Ingrese su placa AAC-0123" stylesheets="@../Styles/listado.css" />
-        <Button id="buscar" fx:id="btnBuscar" layoutX="631.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleBtnBuscar" prefHeight="41.0" styleClass="boton" stylesheets="@../Styles/listado.css" text="Buscar" />
+        <Button id="buscar" fx:id="btnBuscar" layoutX="631.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleBtnBuscar" prefHeight="41.0" styleClass="boton" stylesheets="@../Styles/listado.css" text="Buscar">
+         <tooltip>
+            <Tooltip fx:id="tipRegresar" text="Carrito para Volver" />
+         </tooltip></Button>
         <Button layoutX="740.0" layoutY="150.0" mnemonicParsing="false" onAction="#handleBtnIngresar" styleClass="boton" stylesheets="@../Styles/listado.css" text="Ingresar" />
         <Button fx:id="btnEliminar" layoutX="740.0" layoutY="300.0" mnemonicParsing="false" onAction="#handleBtnEliminar" styleClass="boton" stylesheets="@../Styles/listado.css" text="Eliminar" />
         <Button fx:id="btnEditar" layoutX="740.0" layoutY="225.0" mnemonicParsing="false" onAction="#handleBtnEditar" styleClass="boton" stylesheets="@../Styles/listado.css" text="Editar" />
