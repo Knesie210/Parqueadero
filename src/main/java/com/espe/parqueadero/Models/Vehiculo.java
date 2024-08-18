@@ -10,7 +10,6 @@ public class Vehiculo {
 
     public Vehiculo() {
         this.horaEntrada = obtenerHoraActual();
-        this.horaSalida = obtenerHoraActual();
     }
 
     public String getPropietario() {

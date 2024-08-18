@@ -32,9 +32,9 @@ public class VehiculoCRUD {
     }
 
     //Update
-    public void actualizarHoraSalida(String placa) {
+    public void actualizarHoraSalida(String placa, String horaSalida) {
         Document filtro = new Document("placa", placa);
-        Document actualizacion = new Document("$set", new Document("horaSalida", new Vehiculo().getHoraSalida()));
+        Document actualizacion = new Document("$set", new Document("horaSalida", horaSalida));
         collection.updateOne(filtro, actualizacion);
     }
     public void actualizarDatosVehiculo(String placa, Vehiculo vehiculoActualizado) {

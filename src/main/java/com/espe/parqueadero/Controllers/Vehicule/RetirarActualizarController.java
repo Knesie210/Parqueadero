@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 import static com.espe.parqueadero.Controllers.Vehicule.IngresarController.showAlert;
@@ -37,11 +39,12 @@ public class RetirarActualizarController {
             return;
         }
 
-        actualizarHoraSalida(placasText);
+        String horaSalida = obtenerHoraActual();
+        actualizarHoraSalida(placasText, horaSalida);
 
         showAlert(Alert.AlertType.INFORMATION, "Salida", "Gracias por su visita. Vuelva pronto.");
-        Stage stage = (Stage) btnRetirar.getScene().getWindow();
-        stage.close();
+//        Stage stage = (Stage) btnRetirar.getScene().getWindow();
+//        stage.close();
     }
 
     private  View viewApp = new View();
@@ -51,7 +54,12 @@ public class RetirarActualizarController {
         MongoDB mongoDB = new MongoDB();
         this.vehiculoCRUD = new VehiculoCRUD(mongoDB.getVehiculoCollection());
     }
-    private void actualizarHoraSalida(String placas) {
-        vehiculoCRUD.actualizarHoraSalida(placas);
+    private void actualizarHoraSalida(String placas, String horaSalida) {
+        vehiculoCRUD.actualizarHoraSalida(placas, horaSalida);
+    }
+
+    private String obtenerHoraActual() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.now().format(formatter);
     }
 }
